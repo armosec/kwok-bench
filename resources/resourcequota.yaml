@@ -4,4 +4,4 @@ metadata:
   name: fake-rq-$id
 spec:
   hard:
-    pods: "1500"
+    pods: "1500000"
