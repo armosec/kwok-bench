@@ -21,8 +21,8 @@ spec:
                     operator: In
                     values:
                       - kwok
-      # A taints was added to an automatically created Node.
-      # You can remove taints of Node or add this tolerations.
+      # A taint was added to an automatically created Node.
+      # You can remove taints of Node or add this toleration.
       tolerations:
         - key: "kwok.x-k8s.io/node"
           operator: "Exists"
@@ -30,3 +30,10 @@ spec:
       containers:
         - name: fake-container
           image: fake-image
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

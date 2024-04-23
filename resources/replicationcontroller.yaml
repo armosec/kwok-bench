@@ -11,6 +11,28 @@ spec:
       labels:
         app: example
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: type
+                    operator: In
+                    values:
+                      - kwok
+      # A taint was added to an automatically created Node.
+      # You can remove taints of Node or add this toleration.
+      tolerations:
+        - key: "kwok.x-k8s.io/node"
+          operator: "Exists"
+          effect: "NoSchedule"
       containers:
       - name: example
         image: example:1.0
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
