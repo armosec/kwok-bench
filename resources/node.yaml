@@ -21,13 +21,13 @@ spec:
       value: fake
 status:
   allocatable:
-    cpu: 32
-    memory: 256Gi
-    pods: 110
+    cpu: 320
+    memory: 2560Gi
+    pods: 1100
   capacity:
-    cpu: 32
-    memory: 256Gi
-    pods: 110
+    cpu: 320
+    memory: 2560Gi
+    pods: 1100
   nodeInfo:
     architecture: amd64
     bootID: ""
