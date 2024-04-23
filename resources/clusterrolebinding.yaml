@@ -10,4 +10,3 @@ roleRef:
   kind: ClusterRole
   name: node-reader-$id
   apiGroup: rbac.authorization.k8s.io
-

@@ -6,4 +6,3 @@ rules:
 - apiGroups: [""]
   resources: ["nodes"]
   verbs: ["get", "list"]
-
