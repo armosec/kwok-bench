@@ -96,25 +96,30 @@ if namespaces[0] != "" and args.action == "apply":
 
 # Open templates and run kubectl with the generated YAMLs for each kind
 for kind in kinds:
-    filepath = os.path.join('resources', f"{kind}.yaml") 
+    filepath = os.path.join('resources', f"{kind}.yaml")
     with open(filepath) as f:
         template = Template(f.read())
     amount_of_resources = (
         getattr(args, "all") if getattr(args, "all") > 0 and  getattr(args, kind) == 0 else getattr(args, kind)
     )
+    if amount_of_resources == 0:
+        continue
 
     current_kind_namespaces = namespaces if is_namespaced_resource(kind) else [""]
-    for i in range(1, amount_of_resources + 1):
-        # TODO use the namespaces array
-        for ns in current_kind_namespaces:
-            cmd_args = ["kubectl", args.action] 
-            if ns != "":
-                cmd_args.extend(["-n", ns])
-            cmd_args.extend(["-f", "-"])
-            subprocess.run(
-                cmd_args,
-                input=template.substitute(id=i).encode(),
-            )
+    input = template.substitute(id=1).encode()
+    for i in range(1, amount_of_resources):
+        input += str.encode("---\n")
+        input += template.substitute(id=i+1).encode()
+    # TODO use the namespaces array
+    for ns in current_kind_namespaces:
+        cmd_args = ["kubectl", args.action]
+        if ns != "":
+            cmd_args.extend(["-n", ns])
+        cmd_args.extend(["-f", "-"])
+        subprocess.run(
+            cmd_args,
+            input=input,
+        )
 
 # finally delete the namespaces
 if namespaces[0] != "" and args.action == "delete":
